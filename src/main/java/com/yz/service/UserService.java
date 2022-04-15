@@ -6,6 +6,7 @@ import com.yz.dto.res.UserToken;
 import com.yz.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -20,4 +21,6 @@ public interface UserService extends IService<User> {
     Captcha getCaptcha();
 
     UserToken checkLogin(UserLogin userLogin, HttpServletResponse resp);
+
+    User getUserInfo(HttpServletRequest req);
 }

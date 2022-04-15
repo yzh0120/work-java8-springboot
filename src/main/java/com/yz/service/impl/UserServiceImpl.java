@@ -13,12 +13,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yz.utils.JwtUtils;
 import com.yz.utils.RedisUtil;
 import com.yz.utils.exception.BusException;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -116,6 +118,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusException("用户不存在");
         }
 
+    }
+
+    @Override
+    public User getUserInfo(HttpServletRequest req) {
+
+        String authorization = req.getHeader("Authorization");
+
+        String token = authorization.replace("Bearer ", "");
+
+        Claims claims = jwtUtils.getClaimByToken(token);
+        String userId = claims.getSubject();
+        System.out.println(userId+"userId");
+
+        User user = userService.getOne(new QueryWrapper<User>().eq("id", userId));
+        return user;
     }
 
 }

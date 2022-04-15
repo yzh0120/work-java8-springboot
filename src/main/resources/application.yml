@@ -1,28 +1,28 @@
-#ÄÚÖÃtomcat
+#å†…ç½®tomcat
 server:
-  port: 7778 #ÄÚÖÃtomcatÆô¶¯¶Ë¿Ú
+  port: 7777 #å†…ç½®tomcatå¯åŠ¨ç«¯å£
 
-#ÅäÖÃspring
+#é…ç½®spring
 spring:
 
-  redis: #redis
-    host: 127.0.0.1 #ip
-    port: 6379 #¶Ë¿Ú
-    password: 123456 #ÃÜÂë
+  redis:   #redis
+    host: 127.0.0.1  #ip
+    port: 6379       #ç«¯å£
+    password: 123456  #å¯†ç 
 
-  datasource: #Êı¾İÔ´
-    driver-class-name: com.mysql.cj.jdbc.Driver   #Êı¾İ¿âÇı¶¯
-    url: jdbc:mysql://localhost:3306/oa?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai #Êı¾İ¿âÁ¬½ÓµØÖ·
-    username: root  #ÓÃ»§Ãû
-    password: 123456 #ÃÜÂë
+  datasource: #æ•°æ®æº
+    driver-class-name: com.mysql.cj.jdbc.Driver  #æ•°æ®åº“é©±åŠ¨
+    url: jdbc:mysql://localhost:3306/oa?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai #æ•°æ®åº“è¿æ¥åœ°å€
+    username: root #ç”¨æˆ·å
+    password: 123456 #å¯†ç 
 
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/**Mapper.xml   #mapperÎÄ¼ş¼Ğ
-  type-aliases-package: com.yz.oa.entity       #mapperÎÄ¼ş¶ÔÓ¦µÄÊµÌåÎÄ¼ş
+  mapper-locations: classpath*:/mapper/**Mapper.xml #mapperæ–‡ä»¶å¤¹
+  type-aliases-package: com.yz.oa.entity #mapperæ–‡ä»¶å¯¹åº”çš„å®ä½“æ–‡ä»¶
   log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 yz:
   jwt:
-    header: Authorization  # Í·²¿
-    expire: 604800 #¹ıÆÚÊ±¼ä
-    secret: ji8n3439n439n43ld9ne9343fdfer49h #Ô¿³×
+    header: Authorization # å¤´éƒ¨
+    expire: 604800 #è¿‡æœŸæ—¶é—´
+    secret: ji8n3439n439n43ld9ne9343fdfer49h #é’¥åŒ™
