@@ -1,0 +1,28 @@
+#内置tomcat
+server:
+  port: 7778 #内置tomcat启动端口
+
+#配置spring
+spring:
+
+  redis: #redis
+    host: 127.0.0.1 #ip
+    port: 6379 #端口
+    password: 123456 #密码
+
+  datasource: #数据源
+    driver-class-name: com.mysql.cj.jdbc.Driver   #数据库驱动
+    url: jdbc:mysql://localhost:3306/oa?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai #数据库连接地址
+    username: root  #用户名
+    password: 123456 #密码
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml   #mapper文件夹
+  type-aliases-package: com.yz.oa.entity       #mapper文件对应的实体文件
+  log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+yz:
+  jwt:
+    header: Authorization  # 头部
+    expire: 604800 #过期时间
+    secret: ji8n3439n439n43ld9ne9343fdfer49h #钥匙
