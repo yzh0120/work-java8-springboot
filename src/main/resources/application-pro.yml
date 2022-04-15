@@ -1,0 +1,2 @@
+server:
+  port: 9993 #内置tomcat启动端口
