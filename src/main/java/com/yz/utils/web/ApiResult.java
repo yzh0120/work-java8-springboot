@@ -27,32 +27,14 @@ public class ApiResult<T> {
     @ApiModelProperty(value ="对象")
     private T data;
 
-//    public int getCode() {
-//        return code;
+
+//    public void setInfo(String info) {
+//        this.info = info;
 //    }
 //
-//    public void setCode(int code) {
-//        this.code = code;
-//    }
 //
-//    public String getInfo() {
-//        return info;
+//    public ApiResult() {
 //    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-//    public T getData() {
-//        return data;
-//    }
-//
-//    public void setData(T data) {
-//        this.data = data;
-//    }
-
-    public ApiResult() {
-    }
 
     public ApiResult(T data) {
         this.code = SystemStatusEnum.SUCCESS.getCode();
@@ -65,36 +47,36 @@ public class ApiResult<T> {
         this.info = msg;
     }
 
-    public ApiResult(IEnum iEnum) {
-        this.code = iEnum.getCode();
-        this.info = iEnum.getMsg();
-    }
-
-    public ApiResult(IEnum iEnum, T data) {
-        this.code = iEnum.getCode();
-        this.info = iEnum.getMsg();
-        this.data = data;
-    }
+//    public ApiResult(IEnum iEnum) {
+//        this.code = iEnum.getCode();
+//        this.info = iEnum.getMsg();
+//    }
+//
+//    public ApiResult(IEnum iEnum, T data) {
+//        this.code = iEnum.getCode();
+//        this.info = iEnum.getMsg();
+//        this.data = data;
+//    }
 
     public static <T> ApiResult<T> success(T data) {
         return new ApiResult<>(data);
     }
 
-    public static ApiResult<Void> error() {
-        return new ApiResult<>(SystemStatusEnum.UN_KNOW_ERROR);
-    }
-
-    public static ApiResult<Void> error(IEnum iEnum) {
-        return new ApiResult<>(iEnum);
-    }
-
-    public static <T> ApiResult<T> error(T data) {
-        return new ApiResult<>(SystemStatusEnum.BUSINESS_ERROR, data);
-    }
-
-    public static <T> ApiResult<T> error(IEnum iEnum, T data) {
-        return new ApiResult<>(iEnum, data);
-    }
+//    public static ApiResult<Void> error() {
+//        return new ApiResult<>(SystemStatusEnum.UN_KNOW_ERROR);
+//    }
+//
+//    public static ApiResult<Void> error(IEnum iEnum) {
+//        return new ApiResult<>(iEnum);
+//    }
+//
+//    public static <T> ApiResult<T> error(T data) {
+//        return new ApiResult<>(SystemStatusEnum.BUSINESS_ERROR, data);
+//    }
+//
+//    public static <T> ApiResult<T> error(IEnum iEnum, T data) {
+//        return new ApiResult<>(iEnum, data);
+//    }
 
     public static <T> ApiResult<T> error(int code, String msg) {
         return new ApiResult<>(code, msg);

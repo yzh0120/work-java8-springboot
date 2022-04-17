@@ -1,13 +1,8 @@
 package com.yz.service;
 
-import com.yz.dto.req.UserLogin;
-import com.yz.dto.res.Captcha;
-import com.yz.dto.res.UserToken;
-import com.yz.entity.User;
+import com.yz.dto.res.CaptchaDTO;
+import com.yz.entity.UserEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
@@ -15,12 +10,9 @@ import javax.servlet.http.HttpServletResponse;
  * </p>
  *
  * @author yz
- * @since 2022-04-14
+ * @since 2022-04-17
  */
-public interface UserService extends IService<User> {
-    Captcha getCaptcha();
+public interface UserService extends IService<UserEntity> {
 
-    UserToken checkLogin(UserLogin userLogin, HttpServletResponse resp);
-
-    User getUserInfo(HttpServletRequest req);
+    CaptchaDTO getCaptcha();
 }

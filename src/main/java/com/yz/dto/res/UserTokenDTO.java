@@ -5,12 +5,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("登录成功返回对象")
-public class UserToken {
+@ApiModel(value ="登录成功返回对象")
+public class UserTokenDTO {
 
-    @ApiModelProperty("token")
+    @ApiModelProperty(value ="token")
     private String token;
 
-    @ApiModelProperty("时间戳")
+    @ApiModelProperty(value ="时间戳")
     private Long expireDateTimeSpan;
 }

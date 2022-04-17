@@ -1,31 +1,21 @@
 package com.yz.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.code.kaptcha.Producer;
-import com.yz.dto.req.UserLogin;
-import com.yz.dto.res.Captcha;
-import com.yz.dto.res.UserToken;
-import com.yz.entity.User;
+import com.yz.dto.res.CaptchaDTO;
+import com.yz.entity.UserEntity;
 import com.yz.mapper.UserMapper;
 import com.yz.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.yz.utils.JwtUtils;
 import com.yz.utils.RedisUtil;
-import com.yz.utils.exception.BusException;
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -34,10 +24,10 @@ import java.util.UUID;
  * </p>
  *
  * @author yz
- * @since 2022-04-14
+ * @since 2022-04-17
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements UserService {
     @Value("${yz.jwt.expire}")
     private long expire;
 
@@ -47,14 +37,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     RedisUtil redisUtil;
 
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    JwtUtils jwtUtils;
-
     @Override
-    public Captcha getCaptcha() {
+    public CaptchaDTO getCaptcha() {
         String captchaToken = UUID.randomUUID().toString();
         String code = producer.createText();
 
@@ -81,58 +65,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .put("captchaImg", base64Img)
                 .build();*/
 
-        Captcha captcha = new Captcha();
-        captcha.setCaptchaToken(captchaToken);
-        captcha.setCaptchaImgBase64(base64Img);
-        return captcha;
+        CaptchaDTO captchaDTO = new CaptchaDTO();
+        captchaDTO.setCaptchaToken(captchaToken);
+        captchaDTO.setCaptchaImgBase64(base64Img);
+        return captchaDTO;
     }
-
-
-    @Override
-    public UserToken checkLogin(UserLogin userLogin, HttpServletResponse resp) {
-        //1 判断验证码和验证码token是否正确
-        if (StringUtils.isBlank(userLogin.getCaptchaImgBase64Code()) || StringUtils.isBlank(userLogin.getCaptchaToken())) {
-            throw new BusException("验证码或者token为空");
-        }
-        if (!userLogin.getCaptchaImgBase64Code().equals(redisUtil.hget("captcha", userLogin.getCaptchaToken()))) {
-            throw new BusException("验证码错误");
-        }
-
-        //2 检查数据库中是否有此用户
-        User user = userService.getOne(new QueryWrapper<User>().
-                eq("username", userLogin.getUsername())
-                .eq("password", userLogin.getPassword()));
-
-        if(user != null){
-            // 生成jwt，并放置到请求头中
-            String jwt = jwtUtils.generateToken(user.getId());
-            //返回 jwt 过期时间
-            Date nowDate = new Date();
-            Date expireDate = new Date(nowDate.getTime() + 1000 * expire);
-            System.out.println(expireDate + "---" + expire);
-            UserToken userToken = new UserToken();
-            userToken.setExpireDateTimeSpan(expireDate.getTime());
-            userToken.setToken(jwt);
-            return userToken;
-        }else {
-            throw new BusException("用户不存在");
-        }
-
-    }
-
-    @Override
-    public User getUserInfo(HttpServletRequest req) {
-
-        String authorization = req.getHeader("Authorization");
-
-        String token = authorization.replace("Bearer ", "");
-
-        Claims claims = jwtUtils.getClaimByToken(token);
-        String userId = claims.getSubject();
-        System.out.println(userId+"userId");
-
-        User user = userService.getOne(new QueryWrapper<User>().eq("id", userId));
-        return user;
-    }
-
 }

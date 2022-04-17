@@ -1,4 +1,4 @@
-package com.yz.oa.utils.selfWeb.returnResult;
+package com.yz.utils.web;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -46,7 +46,6 @@ public class PageResult<T> {
 //    }
 
     public static  <T> PageResult<T> defaultPageList(Page<T> page, Wrapper<T> queryWrapper, IService service){
-//        IPage pageObj = baseMapper.selectPage(page, queryWrapper);
         IPage pageObj = service.page(page, queryWrapper);
         PageResult pageResult = new PageResult(pageObj.getRecords(), pageObj.getTotal());
         System.out.println(pageResult +"pageData");
